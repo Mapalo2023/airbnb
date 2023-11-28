@@ -2,25 +2,71 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+from scipy import stats
 
 class Inference:
     """
-    A class to perform inference analysis on my Airbnb data.
+    The Inference class is used for conducting various inference-based analyses 
+    on a given dataset. It provides functionalities for hypothesis testin and generating statistical summaries.
+    
+    Attributes:
+        data (pd.DataFrame): A DataFrame containing the dataset for analysis.
     """
-    def __init__(self, url):
+    
+    def __init__(self, data):
         """
-        Initializes the Inference object with data from the specified URL.
-        
-        Parameters:
-        url (str): The URL where the CSV data file is located.
-        """
-        self.data = pd.read_csv(url)
+        Initializes the Inference class with a dataset.
 
+        Args:
+            data (pd.DataFrame): The dataset to be used for inference.
+        """
+        self.data = data
+
+    def hypothesis_test_price_room_type(self):
+        """
+        Conducts an ANOVA test to determine if there are statistically 
+        significant differences in prices across different room types.
+
+        This method assumes that the dataset has 'room_type' and 'price' columns.
+
+        Returns:
+          dict: A dictionary containing the F-statistic and the p-value of the test.
+        """
+         # Check if required columns are in the dataset
+        if 'room_type' not in self.data or 'price' not in self.data:
+            raise ValueError("Dataset must contain 'room_type' and 'price' columns.")
+ 
+         # Prepare data for ANOVA
+        groups = self.data.groupby('room_type')['price']
+
+         # Conduct ANOVA
+        f_value, p_value = stats.f_oneway(*[group for name, group in groups])
+
+         # Return the F-statistic and p-value
+        return {'F-Statistic': f_value, 'p-value': p_value}
+
+
+    def statistical_summary(self, column):
+        """
+        Provides a statistical summary for a specified column in the dataset.
+
+        Args:
+            column (str): The name of the column for which the summary is required.
+
+        Returns:
+            pd.Series: A series containing descriptive statistics of the column.
+        """
+        return self.data[column].describe()
+
+    # Add more methods for different types of inference as needed
+    
+    
     def scatter_plot_price_minimum_nights(self):
         """
         Creates a scatter plot between the 'price' and 'minimum_nights' columns of the data.
         """
         self.data.plot.scatter(x='price', y='minimum_nights', title="minimum_nights")
+        
         
     def scatter_plot_price_minimum_nights_seaborn(self):
         """
@@ -130,3 +176,42 @@ class Inference:
         g.ax.legend(title='Neighbourhood', bbox_to_anchor=(1.05, 1), loc='upper left')
         g.set_axis_labels("Average Price", "Room Type")
         return g
+    
+    def correlation_analysis(self, columns):
+        """
+        Performs correlation analysis on specified columns.
+
+        Parameters:
+            columns (list): List of columns to include in correlation analysis.
+
+        Returns:
+            A DataFrame with correlation values between specified columns.
+        """
+        return self.data[columns].corr()
+
+    def multi_variate_analysis(self, x, y, hue=None, kind='scatter'):
+        """
+        Conducts multivariate analysis using seaborn pairplot or catplot.
+
+        Parameters:
+            x (str): X-axis variable.
+            y (str): Y-axis variable.
+            hue (str): Variable for color encoding.
+            kind (str): The kind of plot to draw
+        """
+        if kind == 'scatter':
+            sns.scatterplot(data=self.data, x=x, y=y, hue=hue)
+        elif kind == 'line':
+            sns.lineplot(data=self.data, x=x, y=y, hue=hue)
+        elif kind == 'bar':
+            sns.barplot(data=self.data, x=x, y=y, hue=hue)
+        # Add more plot types as needed
+        else:
+            raise ValueError(f"Plot kind '{kind}' is not supported")
+
+        plt.title(f'{kind.capitalize()} Plot of {y} vs {x}')
+        plt.show()
+
+ 
+
+

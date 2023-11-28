@@ -3,18 +3,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 
+
 class ExploratoryDataAnalysis:
     """
-    A class to perform exploratory data analysis on my Airbnb data.
+    A class for conducting various analyses on a DataFrame.
     """
-    def __init__(self, url):
+    def __init__(self, data):
         """
-        Initializes the ExploratoryDataAnalysis object with data from the specified URL.
+        Initializes the DataAnalysis object with the provided data.
         
         Parameters:
-        url (str): The URL where the CSV data file is located.
+            data (pd.DataFrame): The data to be analyzed.
         """
-        self.data = pd.read_csv(url)
+        self.data = data
 
     def unique_neighbourhood(self):
         """
@@ -243,6 +244,50 @@ class ExploratoryDataAnalysis:
         # Display the plots
         plt.tight_layout()
         plt.show()
+        
+        
+    def group_and_aggregate(self, group_by, agg_column, agg_func):
+        """
+        Groups the data by specified columns and applies an aggregation function.
 
+        Parameters:
+            group_by (list): List of columns to group by.
+            agg_column (str): Column to apply the aggregation on.
+            agg_func (str): Aggregation function ('mean', 'sum', 'count', etc.)
 
- 
+        Returns:
+            A DataFrame with grouped and aggregated data.
+        """
+        return self.data.groupby(group_by)[agg_column].agg(agg_func)
+    
+
+    def create_pivot_table(self, index, columns, values, aggfunc='mean'):
+        """
+        Creates a pivot table from the DataFrame.
+
+        Parameters:
+            index (str or list): Column(s) to use as index in pivot table.
+            columns (str or list): Column(s) to use as columns in pivot table.
+            values (str): Column to aggregate.
+            aggfunc (str or function): Aggregation function to be used.
+
+        Returns:
+            A pivot table as a DataFrame.
+        """
+        return pd.pivot_table(self.data, index=index, columns=columns, values=values, aggfunc=aggfunc)
+    
+    def melt_data(self, id_vars, value_vars, var_name='variable', value_name='value'):
+        """
+        Reshapes DataFrame using melt.
+
+        Parameters:
+        id_vars (list of str): Columns to keep as identifier variables.
+        value_vars (list of str): Columns to be melted.
+        var_name (str): Name to assign to the melted variable column.
+        value_name (str): Name to assign to the melted value column.
+
+        Returns:
+        pd.DataFrame: Reshaped DataFrame.
+        """
+        return pd.melt(self.data, id_vars=id_vars, value_vars=value_vars, var_name=var_name, value_name=value_name)
+

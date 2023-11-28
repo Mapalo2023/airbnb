@@ -6,16 +6,16 @@ import warnings
 
 class DataSummary:
     """
-    A class to perform data summary on my Airbnb data.
+    A class to perform data summary and handle missing data in a DataFrame.
     """
-    def __init__(self, url):
+    def __init__(self, data):
         """
-        Initializes the DataSummary object with the provided data.
+        Initializes the DataSummary object with the provided DataFrame.
         
         Parameters:
-        data (pd.DataFrame): The data to be summarized.
+            data (pd.DataFrame): The data to be summarized.
         """
-        self.data = pd.read_csv(url)
+        self.data = data
 
 
     def display_head(self):
@@ -98,4 +98,35 @@ class DataSummary:
         pd.Series: A Series containing data types of each column.
         """
         return self.data.dtypes
+    
 
+    def missing_value_summary(self):
+        """
+        Summarizes missing values in the DataFrame.
+        
+        Returns:
+            A DataFrame with count and percentage of missing values for each column.
+        """
+        missing_count = self.data.isnull().sum()
+        missing_percent = (missing_count / len(self.data)) * 100
+        return pd.DataFrame({'count': missing_count, 'percent': missing_percent})
+    
+
+    def fill_missing_values(self, column, method='mean'):
+        """
+        Fills missing values in a specified column using a defined method.
+        
+        Parameters:
+            column (str): The column to fill missing values in.
+            method (str): The method to use for filling missing values ('mean', 'median', 'mode').
+        """
+        if method == 'mean':
+            fill_value = self.data[column].mean()
+        elif method == 'median':
+            fill_value = self.data[column].median()
+        elif method == 'mode':
+            fill_value = self.data[column].mode()[0]
+        else:
+            raise ValueError("Method must be 'mean', 'median', or 'mode'")
+
+        self.data[column].fillna(fill_value, inplace=True)
