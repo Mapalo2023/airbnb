@@ -16,8 +16,7 @@ The project is organized as follows:
 - `data/`: This directory contains the dataset used for this project.
     - `listings.csv`: The Airbnb listings data.
 
-- `notebooks/`: This directory contains Jupyter Notebooks.
-    - `mapalol_project3.ipynb`: Contains a step-by-step analysis using the `airbnb_analysis` package.
+- `mapalol_project3.ipynb`: Contains a step-by-step analysis using the `airbnb_analysis` package.
 
 - `README.md`: This file, which provides an overview of the project and instructions for running the code.
 
