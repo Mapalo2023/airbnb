@@ -26,7 +26,6 @@ def main(argv=None):
             print(summary.statistical_summary(args.column))
         else:
             print("Column name required for this action.")
-        pass
         
     elif args.action == 'eda':
         eda = ExploratoryDataAnalysis(data)
@@ -37,14 +36,12 @@ def main(argv=None):
                 eda.bar_plot_room_type()
             elif args.column == 'price':
                 eda.plot_price_distribution()
-        pass
         
     elif args.action == 'inference':
         inference = Inference(data)
         if args.column:
             if args.column == 'price':
                 print(inference.hypothesis_test_price_room_type())
-        pass
     else:
         parser.print_help()
 
