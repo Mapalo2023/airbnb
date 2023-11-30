@@ -27,6 +27,7 @@ def main(argv=None):
         else:
             print("Column name required for this action.")
         pass
+        
     elif args.action == 'eda':
         eda = ExploratoryDataAnalysis(data)
         if args.column:
@@ -37,6 +38,7 @@ def main(argv=None):
             elif args.column == 'price':
                 eda.plot_price_distribution()
         pass
+        
     elif args.action == 'inference':
         inference = Inference(data)
         if args.column:
