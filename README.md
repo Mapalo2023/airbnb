@@ -9,6 +9,8 @@ The project is organized as follows:
 
 - `airbnb_analysis/`: This directory contains the Python package for this project.
     - `__init__.py`: Initializes the Python package.
+    - `__main__.py`: Initializes the main.
+    - `cli.py`: Initializes the Python package.
     - `summary.py`: Contains the `DataSummary` class for summarizing data.
     - `analysis.py`: Contains the `ExploratoryDataAnalysis` class for performing EDA.
     - `inference.py`: Contains the `Inference` class for performing inference.
