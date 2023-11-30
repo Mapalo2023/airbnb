@@ -20,13 +20,28 @@ def main(argv=None):
 
     # Perform action based on the user's choice
     if args.action == 'summary':
-        # ... rest of your code as before
+        summary = DataSummary(data)
+        summary.data_info()
+        if args.column:
+            print(summary.statistical_summary(args.column))
+        else:
+            print("Column name required for this action.")
         pass
     elif args.action == 'eda':
-        # ... rest of your code as before
+        eda = ExploratoryDataAnalysis(data)
+        if args.column:
+            if args.column == 'neighbourhood':
+                eda.bar_plot_neighbourhood()
+            elif args.column == 'room_type':
+                eda.bar_plot_room_type()
+            elif args.column == 'price':
+                eda.plot_price_distribution()
         pass
     elif args.action == 'inference':
-        # ... rest of your code as before
+        inference = Inference(data)
+        if args.column:
+            if args.column == 'price':
+                print(inference.hypothesis_test_price_room_type())
         pass
     else:
         parser.print_help()
