@@ -1,4 +1,4 @@
-# __main__.py
+#""Enable running `python -m airbnb_analysis
 
 from .cli import main
 
