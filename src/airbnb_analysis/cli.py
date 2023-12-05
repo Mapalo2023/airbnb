@@ -36,14 +36,32 @@ def main(argv=None):
                 eda.bar_plot_room_type()
             elif args.column == 'price':
                 eda.plot_price_distribution()
+        elif args.column == 'minimum_nights':
+            if args.plot_type == 'boxplot':
+                eda.plot_minimum_nights_distribution()
+            elif args.plot_type == 'histogram':
+                eda.plot_minimum_nights_distribution_seaborn()
+            else:
+                print("Invalid plot type specified for minimum_nights")
+        elif args.column == 'number_of_reviews':
+            if args.plot_type == 'boxplot':
+                eda.plot_number_of_reviews_distribution()
+            elif args.plot_type == 'histogram':
+                eda.plot_number_of_reviews_distribution_seaborn()
+            else:
+                print("Invalid plot type specified for number_of_reviews")
+        else:
+            print("Column name required for this action.")        
         
     elif args.action == 'inference':
         inference = Inference(data)
         if args.column:
             if args.column == 'price':
                 print(inference.hypothesis_test_price_room_type())
-    else:
-        parser.print_help()
+        else:
+            parser.print_help()
+
+        
 
 if __name__ == "__main__":
     main()
