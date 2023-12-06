@@ -17,12 +17,12 @@ def generate_parser() -> argparse.ArgumentParser:
     parser.add_argument("--data-path", type=str, default=ARG_DEFAULTS['data_path'],
                         help="Path to the Airbnb dataset CSV file. Defaults to %(default)s")
     parser.add_argument("--action", type=str, choices=['summary', 'eda', 'inference'], 
-                        required=False, help="The type of analysis to perform: summary, eda, or inference.")
+                        required=True, help="The type of analysis to perform: summary, eda, or inference.")
     parser.add_argument("--column", type=str, 
                         help="The column to analyze (required for some actions).")
     
     return parser
-
+ 
 def main(argv=None):
     parser = generate_parser()
     args = parser.parse_args(argv)
